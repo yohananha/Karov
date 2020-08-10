@@ -1,0 +1,26 @@
+.Map{
+    height: 50vh;
+    margin-top:5%;
+}
+
+.mapRow{
+    height: 600px;
+    margin: auto;
+}
+
+#mapBlock{
+    width: 60%;
+    height: 500px;
+    border: 1px solid gray;
+    box-shadow: lightgray;
+    margin: auto;
+}
+
+
+#mapForm{
+    width: 30%;
+    height: 500px;
+    border: 1px solid gray;
+    box-shadow: lightgray;
+    margin: auto;
+}
