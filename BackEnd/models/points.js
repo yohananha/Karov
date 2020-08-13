@@ -38,22 +38,29 @@ const pointsSchema = mongoose.Schema({
 
 //adding midelwere to mongoose
 pointsSchema.pre("save", async function (next) {
-  console.log("THIS2 => " + this);
+  const point = await Points.find({ address: this.address });
+
+  // pushe new intry in distributions arry
+  // if (point.length > 0) {
+  //   const dist = { date: this.distributions.date };
+  //   const point2 = await Points.findOneAndUpdate(
+  //     { address: this.address },
+  //     { $push: { dodo: "dodo" } }
+  //     //{ $push: { distributions: dist } }
+  //   );
+
+  // pushe new point to DB
+  //} else {
   const loc = await geocoder.geocode(this.address);
   this.location = {
     type: "Point",
     coordinates: [loc[0].longitude, loc[0].latitude],
     formattedAdress: loc[0].formattedAdress,
+    //  };
   };
-  this.distributions.push({
-    date: new Date(this.date),
-  });
-  this.address = undefined;
+
   next();
 });
 
-// pointsSchema.pre("save", function (next) {
-//     geocoder.geocode(this.address).then((location) => console.log(location));
-//   });
-
-module.exports = mongoose.model("Points", pointsSchema);
+const Points = mongoose.model("Points", pointsSchema);
+module.exports = Points;
