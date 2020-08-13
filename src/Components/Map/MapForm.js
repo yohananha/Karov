@@ -1,46 +1,73 @@
-import React from 'react';
-import { Form ,Button, Container,Col,Dropdown} from 'react-bootstrap';
+// import React from 'react';
+// import { Form ,Button, Container,Col,Dropdown} from 'react-bootstrap';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
+import React, { Component } from 'react';
+import { Container } from 'react-bootstrap';
 
-const mapForm =()=>{
-    return(
-        <div id="mapForm">
+    class mapForm extends Component {
+      constructor() {
+        var today = new Date();
+        var currentDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        super();
+        this.state = {
+          address: '',
+          food: false,
+          drugs: false,
+          date:currentDate,
+          volunteer:''
+        };
+      }
+
+      onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+
+      }
+
+      onCheck=(e)=>{
+          this.setState({[e.target.name]:e.target.checked})
+
+      }
+
+      onSubmit = (e) => {
+        e.preventDefault();
+        // get our form data out of state
+        const { address, food, drugs, date,volunteer } = this.state;
+      }
+
+      render() {
+        const { address, food, drugs, date, volunteer } = this.state;
+        return (
+            <div id="mapForm">
             <Container>
-                <Form>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control type="text" placeholder="Enter address" />
-                    </Form.Group>
-                    <Form.Row controlId="formBasicCheckbox">
-                        <Col>
-                        <Form.Check type="checkbox" label="Food" />
-                        </Col>
-                        <Col>
-                        <Form.Check type="checkbox" label="Drugs" />
-                        </Col>
-                    </Form.Row>
-                    <DayPickerInput onDayChange={day => console.log(day)} />
-                    <Form.Group controlId="Volunteer">
-                    <Dropdown>
-                        <Dropdown.Toggle variant="secondary" id="dropdownVolunteer">
-                            Pick Volunteer
-                        </Dropdown.Toggle>
+          <form onSubmit={this.onSubmit}>
+          <label>Address:</label><br/>
+            <input type="text" name="address" value={address} onChange={this.onChange} />
+            <br/>
+            <label>Food:</label>
+            <input type="checkbox" name="food"  defaultChecked={this.state.food} onChange={this.onCheck}  />
+            <br/>
+            <label>drugs:</label>
+            <input type="checkbox" name="drugs" defaultChecked={this.state.drugs} onChange={this.onCheck}/>
+            <br/>
 
-                        <Dropdown.Menu>
-                            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </Dropdown.Menu>
-                        </Dropdown>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                    </Form>
-            </Container>
-        </div>
-    )
-}
+            <DayPickerInput name="date" value={date} onDayChange={day => console.log(day)}onChange={this.handleChnage} />
+            <br/>
 
-export default mapForm;
+            <select name="volunteer">
+                <option value="grapefruit">Grapefruit</option>
+                <option value="lime">Lime</option>
+                <option value="coconut">Coconut</option>
+                <option value="mango">Mango</option>
+            </select>
+            <br/>
+
+            <button type="submit">Submit</button>
+          </form>
+          </Container>
+          </div>
+        );
+      }
+    }
+
+    export default mapForm;
