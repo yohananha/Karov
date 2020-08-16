@@ -4,6 +4,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
+import MapboxAutocomplete from 'react-mapbox-autocomplete';
 
     class mapForm extends Component {
       constructor() {
@@ -19,20 +20,28 @@ import { Container } from 'react-bootstrap';
         };
       }
 
-      onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
-
-      }
-
       onCheck=(e)=>{
           this.setState({[e.target.name]:e.target.checked})
 
+      }
+
+      addressHandler=(e)=>{
+        this.setState({address: e.target.value})
+      }
+
+      dateHandler=(e)=>{
+        this.setState({date: e.target.value})
+      }
+
+      volHandler=(e)=>{
+        this.setState({volunteer: e.target.value})
       }
 
       onSubmit = (e) => {
         e.preventDefault();
         // get our form data out of state
         const { address, food, drugs, date,volunteer } = this.state;
+        console.log({ address, food, drugs, date,volunteer })
       }
 
       render() {
@@ -42,7 +51,7 @@ import { Container } from 'react-bootstrap';
             <Container>
           <form onSubmit={this.onSubmit}>
           <label>Address:</label><br/>
-            <input type="text" name="address" value={address} onChange={this.onChange} />
+            <input type="text" name="address" value={address} onChange={this.addressHandler} />
             <br/>
             <label>Food:</label>
             <input type="checkbox" name="food"  defaultChecked={this.state.food} onChange={this.onCheck}  />
@@ -51,10 +60,10 @@ import { Container } from 'react-bootstrap';
             <input type="checkbox" name="drugs" defaultChecked={this.state.drugs} onChange={this.onCheck}/>
             <br/>
 
-            <DayPickerInput name="date" value={date} onDayChange={day => console.log(day)}onChange={this.handleChnage} />
+            <DayPickerInput name="date" value={date} onDayChange={day => console.log(day)} onChange={this.dateHandler} />
             <br/>
 
-            <select name="volunteer">
+            <select name="volunteer" onChange={this.volHandler}>
                 <option value="grapefruit">Grapefruit</option>
                 <option value="lime">Lime</option>
                 <option value="coconut">Coconut</option>
