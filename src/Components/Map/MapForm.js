@@ -1,10 +1,7 @@
-// import React from 'react';
-// import { Form ,Button, Container,Col,Dropdown} from 'react-bootstrap';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
 import React, { Component } from 'react';
-import { Container } from 'react-bootstrap';
-import MapboxAutocomplete from 'react-mapbox-autocomplete';
+import { Container ,Button,Col,Form,Tabs,Tab} from 'react-bootstrap';
+import DayPicker from 'react-day-picker/DayPicker';
+import 'react-day-picker/lib/style.css';
 
     class mapForm extends Component {
       constructor() {
@@ -16,13 +13,17 @@ import MapboxAutocomplete from 'react-mapbox-autocomplete';
           food: false,
           drugs: false,
           date:currentDate,
-          volunteer:''
+          volunteer:'',
+          showDist:false,
+          showVol:false
         };
+
+        this.showdist = this.showdist.bind(this);
+        this.showVol = this.showVol.bind(this);
       }
 
       onCheck=(e)=>{
           this.setState({[e.target.name]:e.target.checked})
-
       }
 
       addressHandler=(e)=>{
@@ -34,47 +35,79 @@ import MapboxAutocomplete from 'react-mapbox-autocomplete';
       }
 
       volHandler=(e)=>{
-        this.setState({volunteer: e.target.value})
+        this.setState
+        ({volunteer: e.target.value})
       }
 
       onSubmit = (e) => {
         e.preventDefault();
-        // get our form data out of state
         const { address, food, drugs, date,volunteer } = this.state;
         console.log({ address, food, drugs, date,volunteer })
       }
-
-      render() {
-        const { address, food, drugs, date, volunteer } = this.state;
+      
+      showdist=()=>{
+        this.setState({showDist : !this.state.showDist});
+      }
+      showVol=()=>{
+        this.setState({showVol : !this.state.showVol});
+      }
+      render(){
         return (
             <div id="mapForm">
-            <Container>
-          <form onSubmit={this.onSubmit}>
-          <label>Address:</label><br/>
-            <input type="text" name="address" value={address} onChange={this.addressHandler} />
-            <br/>
-            <label>Food:</label>
-            <input type="checkbox" name="food"  defaultChecked={this.state.food} onChange={this.onCheck}  />
-            <br/>
-            <label>drugs:</label>
-            <input type="checkbox" name="drugs" defaultChecked={this.state.drugs} onChange={this.onCheck}/>
-            <br/>
+              <Container>
+                  <Form onSubmit={this.onSubmit} style={{}}>
+                    <Form.Group>
+                      <Form.Label>Address:</Form.Label><br/>
+                      <Form.Control type="text" name="address" value={this.state.address} onChange={this.addressHandler}/>
+                    </Form.Group>
+                    <Form.Group>
+                    <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" variant="pills">
+                      <Tab eventKey="Add Distribution" title="Add Distribution">
+                          <div className="DistSection">
+                            <Form.Group>
+                              <br/>
+                          <Form.Row>
+                          <Col>
+                            <Form.Check 
+                              type="switch"
+                              id="food-switch"
+                              label="food"
+                              name="food"  defaultChecked={this.food} onChange={this.onCheck} />
+                          </Col>
+                          <Col>
+                            <Form.Check 
+                              type="switch"
+                              id="drugs-switch"
+                              label="drugs"
+                              name="drugs"  defaultChecked={this.drugs} onChange={this.onCheck}
+                            />
+                          </Col>
+                          </Form.Row>
+                          </Form.Group>
+                          <Form.Group>
+                            <DayPicker name="date" value={this.date} onDayChange={day => console.log(day)} onChange={this.dateHandler} />
+                          </Form.Group>
 
-            <DayPickerInput name="date" value={date} onDayChange={day => console.log(day)} onChange={this.dateHandler} />
-            <br/>
-
-            <select name="volunteer" onChange={this.volHandler}>
-                <option value="grapefruit">Grapefruit</option>
-                <option value="lime">Lime</option>
-                <option value="coconut">Coconut</option>
-                <option value="mango">Mango</option>
-            </select>
-            <br/>
-
-            <button type="submit">Submit</button>
-          </form>
-          </Container>
-          </div>
+                          </div>
+                      </Tab>
+                      <Tab eventKey="Match Volunteer" title="Match Volunteer">
+                        <Form.Group>
+                          <br/>
+                           <Form.Control className="volSection" as="select" custom name="volunteer" onChange={this.volHandler}>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                          </Form.Control>
+                        </Form.Group>
+                      </Tab>
+                    </Tabs>
+                    </Form.Group>
+                    <Button type="submit">Submit</Button>
+                </Form>
+              </Container>
+            </div>
         );
       }
     }
