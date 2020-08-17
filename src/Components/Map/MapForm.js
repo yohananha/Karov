@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Container ,Button,Col,Form,Tabs,Tab} from 'react-bootstrap';
 import DayPicker from 'react-day-picker/DayPicker';
 import 'react-day-picker/lib/style.css';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+// If you want to use the provided css
+import 'react-google-places-autocomplete/dist/index.min.css';
+
 
     class mapForm extends Component {
       constructor() {
@@ -58,7 +62,11 @@ import 'react-day-picker/lib/style.css';
                   <Form onSubmit={this.onSubmit} style={{}}>
                     <Form.Group>
                       <Form.Label>Address:</Form.Label><br/>
-                      <Form.Control type="text" name="address" value={this.state.address} onChange={this.addressHandler}/>
+                      <GooglePlacesAutocomplete
+                          onSelect={({ description }) => (
+                            this.setState({ address: description })
+                          )}    />
+                      {/* <Form.Control type="text" name="address" value={this.state.address} onChange={this.addressHandler}/> */}
                     </Form.Group>
                     <Form.Group>
                     <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" variant="pills">
