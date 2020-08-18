@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Container ,Button,Col,Form,Tabs,Tab} from 'react-bootstrap';
+import { Container ,Button,Col,Form,Tabs,Tab,Alert} from 'react-bootstrap';
 import DayPicker from 'react-day-picker/DayPicker';
 import 'react-day-picker/lib/style.css';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import GooglePlacesAutocomplete , { geocodeByAddress, getLatLng  } from 'react-google-places-autocomplete';
+
 // If you want to use the provided css
 import 'react-google-places-autocomplete/dist/index.min.css';
 
@@ -19,7 +20,9 @@ import 'react-google-places-autocomplete/dist/index.min.css';
           date:currentDate,
           volunteer:'',
           showDist:false,
-          showVol:false
+          showVol:false,
+          latitude:31.76,
+          longitude:35.2
         };
 
         this.showdist = this.showdist.bind(this);
@@ -30,8 +33,14 @@ import 'react-google-places-autocomplete/dist/index.min.css';
           this.setState({[e.target.name]:e.target.checked})
       }
 
-      addressHandler=(e)=>{
-        this.setState({address: e.target.value})
+      addressHandler=(description)=>{
+        this.setState({ address:description})
+        geocodeByAddress(description)
+          .then(results => getLatLng(results[0]))
+          .then(({ lat, lng }) =>
+            this.setState({
+              latitude: lat,
+              longitude: lng}))
       }
 
       dateHandler=(e)=>{
@@ -45,8 +54,8 @@ import 'react-google-places-autocomplete/dist/index.min.css';
 
       onSubmit = (e) => {
         e.preventDefault();
-        const { address, food, drugs, date,volunteer } = this.state;
-        console.log({ address, food, drugs, date,volunteer })
+        const { address, food, drugs, date,volunteer,latitude,longitude } = this.state;
+        console.log({ address, food, drugs, date,volunteer,latitude,longitude })
       }
       
       showdist=()=>{
@@ -64,7 +73,7 @@ import 'react-google-places-autocomplete/dist/index.min.css';
                       <Form.Label>Address:</Form.Label><br/>
                       <GooglePlacesAutocomplete
                           onSelect={({ description }) => (
-                            this.setState({ address: description })
+                            this.addressHandler(description)
                           )}    />
                       {/* <Form.Control type="text" name="address" value={this.state.address} onChange={this.addressHandler}/> */}
                     </Form.Group>
