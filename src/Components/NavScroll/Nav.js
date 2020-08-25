@@ -1,12 +1,9 @@
 import React from "react";
-import {
-  Navbar,
-  Form,
-  NavDropdown,
-  FormControl,
-  Nav,
-  Button,
-} from "react-bootstrap";
+import LoginButton from "../Buttons/LoginButton";
+import { Navbar, Nav } from "react-bootstrap";
+import LogoutButton from "../Buttons/LogoutButton";
+
+import Profile from "../Security/Profile";
 
 const nav = () => {
   return (
@@ -19,10 +16,11 @@ const nav = () => {
           <Nav.Link href="/blog">Blog</Nav.Link>
           <Nav.Link href="/graphs">Graps</Nav.Link>
           <Nav.Link href="/clusters">Clusters</Nav.Link>
+          <Nav.Link href="/users">Users</Nav.Link>
         </Nav>
-        <Form inline>
-          <Button variant="outline-success">Login</Button>
-        </Form>
+        <LoginButton />
+        <LogoutButton />
+        <Profile />
       </Navbar.Collapse>
     </Navbar>
   );
