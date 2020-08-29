@@ -3,16 +3,12 @@ const router = express.Router();
 const Points = require("../models/points");
 
 router.get("/", (req, res) => {
-  console.log("999999999999999999999999999");
+  console.log("GET req tp '/points' was activated!");
 
   Points.find()
     .then((points) => {
       console.log("ggeeeeeeeeeettttttttttt");
-      res.status(200).json({
-        success: true,
-        count: points.length,
-        data: points,
-      });
+      res.status(200).json({ points });
     })
     .catch((arr) => {
       console.log(arr);
