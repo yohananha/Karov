@@ -13,7 +13,7 @@ var moment = require("moment");
 const Map = () => {
   const [points, setPoints] = useState([]);
   const [pointsToShow, setPointsToShow] = useState([]);
-  const [day, setDay] = useState(1);
+  const [day, setDay] = useState(moment().format("YYYY-MM-DD"));
   const [popupInfo, setPopupInfo] = useState(null);
 
   useEffect(() => {
@@ -51,8 +51,9 @@ const Map = () => {
     return day == moment(point.date).day();
   };
 
-  const changeDay = (day) => {
-    setDay(day);
+  const changeDay = (e) => {
+    console.log(e);
+    setDay(e);
   };
 
   const onClickMarker = (point) => {
@@ -121,7 +122,6 @@ const Map = () => {
     <Container className="Map">
       <Row id="mapRow">
         <Col md lg="8" id="mapBlock">
-          <ButtonsLine handleClick={(day) => changeDay(day)} />
           <MapBoxGL
             points={points}
             handleClick={(point) => onClickMarker(point)}
@@ -136,8 +136,7 @@ const Map = () => {
             addPoint(point);
           }}
         />
-
-        <MapForm md lg="4"></MapForm>
+        <MapForm md lg="4" changeDay={changeDay}></MapForm>
       </Row>
     </Container>
   );

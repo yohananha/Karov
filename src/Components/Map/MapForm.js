@@ -53,7 +53,8 @@ class mapForm extends Component {
   };
 
   dateHandler = (e) => {
-    this.setState({ date: e.target.value });
+    this.setState({ date: e });
+    this.props.changeDay(e);
   };
 
   volHandler = (e) => {
@@ -126,14 +127,6 @@ class mapForm extends Component {
                         </Col>
                       </Form.Row>
                     </Form.Group>
-                    <Form.Group>
-                      <DayPicker
-                        name="date"
-                        value={this.date}
-                        onDayChange={(day) => console.log(day)}
-                        onChange={this.dateHandler}
-                      />
-                    </Form.Group>
                   </div>
                 </Tab>
                 <Tab eventKey="Match Volunteer" title="Match Volunteer">
@@ -155,6 +148,14 @@ class mapForm extends Component {
                   </Form.Group>
                 </Tab>
               </Tabs>
+              <Form.Group>
+                <DayPicker
+                  name="date"
+                  value={this.date}
+                  onDayClick={(day) => this.dateHandler(day)}
+                  onChange={this.dateHandler}
+                />
+              </Form.Group>
             </Form.Group>
             <Button type="submit">Submit</Button>
           </Form>
