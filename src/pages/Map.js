@@ -39,16 +39,16 @@ const Map = () => {
   //   ////
   // }, [popupInfo]);
 
-  const addPoint = (point) => {
-    setPoints([...points, point]);
-  };
+  // const addPoint = (point) => {
+  //   setPoints([...points, point]);
+  // };
 
   const inThisWeek = (date) => {
     return moment(date).isSame(new Date(), "week");
   };
 
   const inSpecificDay = (point, day) => {
-    return day == moment(point.date).day();
+    return day === moment(point.date).day();
   };
 
   const changeDay = (e) => {
@@ -106,17 +106,19 @@ const Map = () => {
 
   // ------
 
-  // // add the point to mongo and if seccsses add it to the state
-  // const addPoint = (point) => {
-  //   fetch("http://localhost:5000/points",{
-  //     method: 'post',
-  //     //JSON.stringify
-  //     body: point
-  //   })
-  //   .then((response) => response.json())
-  //   .then((point) => {setPoints([...points, point])})
-  //   .catch(arr => console.log(arr))
-  // };
+  // add the point to mongo and if seccsses add it to the state
+  const addPoint = (point) => {
+    fetch("http://localhost:5000/points", {
+      method: "post",
+      //JSON.stringify
+      body: point,
+    })
+      .then((response) => response.json())
+      // .then((point) => {
+      //   setPoints([...points, point]);
+      // })
+      .catch((arr) => console.log(arr));
+  };
 
   return (
     <Container className="Map">
@@ -136,7 +138,12 @@ const Map = () => {
             addPoint(point);
           }}
         />
-        <MapForm md lg="4" changeDay={changeDay}></MapForm>
+        <MapForm
+          md
+          lg="4"
+          changeDay={changeDay}
+          submitPoint={addPoint}
+        ></MapForm>
       </Row>
     </Container>
   );

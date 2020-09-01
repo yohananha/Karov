@@ -55,9 +55,9 @@ class mapForm extends Component {
   }
 
   dateHandler = (e) => {
-    var currentDate = this.extractDate(e);
+    const currentDate = this.extractDate(e);
     this.setState({ date: currentDate });
-    this.props.changeDay(e);
+    this.props.changeDay(currentDate);
   };
 
   volHandler = (e) => {
@@ -66,16 +66,8 @@ class mapForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const {
-      address,
-      food,
-      drugs,
-      date,
-      volunteer,
-      latitude,
-      longitude,
-    } = this.state;
-    console.log({ address, food, drugs, date, volunteer, latitude, longitude });
+    console.log(this.state);
+    this.props.addPoint(this.state);
   };
 
   showdist = () => {
