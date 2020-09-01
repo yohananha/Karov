@@ -12,14 +12,10 @@ import "react-google-places-autocomplete/dist/index.min.css";
 
 class mapForm extends Component {
   constructor() {
-    var today = new Date();
-    var currentDate =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
     super();
+
+    var currentDate = this.extractDate(new Date());
+
     this.state = {
       address: "",
       food: false,
@@ -52,8 +48,15 @@ class mapForm extends Component {
       );
   };
 
+  extractDate(date) {
+    var currentDate =
+      date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    return currentDate;
+  }
+
   dateHandler = (e) => {
-    this.setState({ date: e });
+    var currentDate = this.extractDate(e);
+    this.setState({ date: currentDate });
     this.props.changeDay(e);
   };
 
