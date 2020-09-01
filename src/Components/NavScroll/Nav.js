@@ -1,9 +1,8 @@
 import React from "react";
-import LoginButton from "../Buttons/LoginButton";
 import { Navbar, Nav } from "react-bootstrap";
-import LogoutButton from "../Buttons/LogoutButton";
+//import LogoutButton from "../Buttons/LogoutButton";
 
-import Profile from "../Security/Profile";
+//import Profile from "../Security/Profile";
 
 const nav = () => {
   return (
@@ -18,9 +17,9 @@ const nav = () => {
           <Nav.Link href="/clusters">Clusters</Nav.Link>
           <Nav.Link href="/users">Users</Nav.Link>
         </Nav>
-        <LoginButton />
-        <LogoutButton />
-        <Profile />
+        {/* <LoginButton />
+        <LogoutButton /> */}
+        {/* <Profile /> */}
       </Navbar.Collapse>
     </Navbar>
   );

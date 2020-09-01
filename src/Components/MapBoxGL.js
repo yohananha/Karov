@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ReactMapGL, { Marker } from "react-map-gl";
+import ReactMapGL, { Marker, Popup } from "react-map-gl";
 
 // const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN;
 const MAPBOX_TOKEN =
   "pk.eyJ1Ijoibm9hbXNtYXAiLCJhIjoiY2tkc2xxOTY1MHNyOTJwbGk4YjN4NmRwNSJ9.8iMoHVbkmowQPyjFobmOCQ";
 
-const MapBoxGL = ({ points }) => {
+const MapBoxGL = ({ points, handleClick }) => {
   const [showPoints, setShowPoints] = useState(false);
   const [p, setp] = useState(points);
 
@@ -16,8 +16,6 @@ const MapBoxGL = ({ points }) => {
     bearing: 0, // rotate  360
     pitch: 0, // tilt the angle of the map
   });
-  useEffect(() => console.log("000   points len: ", points.length));
-  useEffect(() => console.log("000   p len: ", p.length));
 
   // const dummyPoints = [
   //   { lat: 31.786162, lon: 35.194577 },
@@ -42,56 +40,33 @@ const MapBoxGL = ({ points }) => {
       onViewportChange={(nextViewport) => setViewport(nextViewport)}
       mapboxApiAccessToken={MAPBOX_TOKEN}
     >
-      {/* <Marker
-        latitude={31.785402}
-        longitude={35.194489}
-        offsetLeft={0}
-        offsetTop={0}
-      >
-        <img
-          src="location-icon.png"
-          style={{ width: "50px", height: "50px" }}
-        />
-      
-      </Marker> */}
-      {console.log("LEN: ", points.length)}
-
+      {/* show all points */}
       {points.length > 0 &&
         points.map((point) => {
           return (
             <Marker latitude={point.Latitude} longitude={point.Longitude}>
               <img
-                src="location-icon.png"
-                style={{ width: "50px", height: "50px" }}
+                onClick={() => handleClick(point)}
+                src={
+                  point.volunteer
+                    ? "location-blue-icon.png"
+                    : "location-icon.png"
+                }
+                style={{ cursor: "pointer", width: "50px", height: "50px" }}
               />
             </Marker>
           );
         })}
-
-      {/* {points.map((item) => {
-        return (
-          <Marker latitude={item.Latitude} longitude={item.Longitude}>
-            <img
-              src="location-icon.png"
-              style={{ width: "50px", height: "50px" }}
-            />
-          </Marker>
-        );
-      })} */}
-
-      {/* {console.log(points.leanth)}
-      {console.log(points[0])}
-      {console.log(typeof points[0])}
-      {console.log(Object.keys(points[0]))} */}
-      {/* 
-      {points.map((point) => (
-        <Marker latitude={point.Latitude} longitude={point.Longitude}>
-          <img
-            src="location-icon.png"
-            style={{ width: "50px", height: "50px" }}
-          />
-        </Marker>
-      ))} */}
+      <Popup
+        latitude={31.760967}
+        longitude={35.175017}
+        closeButton={true}
+        closeOnClick={false}
+        onClose={() => this.setState({ showPopup: false })}
+        anchor="top"
+      >
+        <div>You are here</div>
+      </Popup>
     </ReactMapGL>
   );
 };
